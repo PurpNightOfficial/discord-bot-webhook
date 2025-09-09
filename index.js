@@ -1,13 +1,23 @@
 const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const express = require('express');
 
+// 除錯：印出所有環境變數
+console.log('🔍 所有環境變數:', Object.keys(process.env));
+console.log('🔍 NODE_ENV:', process.env.NODE_ENV);
+console.log('🔍 PORT:', process.env.PORT);
+
 // 環境變數
 const token = process.env.BOT_TOKEN;
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || 'your-secret-key';
 const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL;
 
-if (!token) {
-    console.error('❌ BOT_TOKEN 未設定！');
+console.log('🔍 BOT_TOKEN 存在嗎?', !!token);
+console.log('🔍 BOT_TOKEN 類型:', typeof token);
+
+if (!token || token.length === 0) {
+    console.error('❌ BOT_TOKEN 未設定或讀取失敗！');
+    console.error('🔍 Token 內容:', token);
+    console.error('🔍 可用的環境變數:', Object.keys(process.env).filter(key => key.includes('TOKEN') || key.includes('BOT')));
     process.exit(1);
 }
 
